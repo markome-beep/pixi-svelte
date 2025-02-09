@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Application } from 'pixi.js';
 	import { onMount } from 'svelte';
-	import { initDevtools } from '@pixi/devtools';
 	import { Input } from './input';
 	import { init_game, update } from './gameHandler';
 
@@ -27,7 +26,7 @@
 			canvas: game_canvas,
 			resizeTo: container
 		});
-		await initDevtools({ app });
+		//await initDevtools({ app });
 		await init_game(app.stage);
 
 		const update_func = update(input, app.stage);
