@@ -1,4 +1,4 @@
-import { assets } from "$app/paths";
+import { base } from "$app/paths";
 import { Assets, Spritesheet, type SpritesheetData, AnimatedSprite, Container, Sprite } from "pixi.js";
 
 export const load_assets = async () => {
@@ -9,11 +9,11 @@ export const load_assets = async () => {
 				assets: [
 					{
 						alias: 'sky',
-						src: '/sprites/sky.png',
+						src: `${base}/sprites/sky.png`,
 					},
 					{
 						alias: 'ground',
-						src: '/sprites/ground.png',
+						src: `${base}/sprites/ground.png`,
 					},
 				],
 			},
@@ -22,7 +22,7 @@ export const load_assets = async () => {
 				assets: [
 					{
 						alias: 'hex',
-						src: '/sprites/Hex_Tile.png'
+						src: `${base}/sprites/Hex_Tile.png`
 					}
 				]
 			},
@@ -31,11 +31,11 @@ export const load_assets = async () => {
 				assets: [
 					{
 						alias: 'hero',
-						src: '/sprites/hero-sheet.png',
+						src: `${base}/sprites/hero-sheet.png`,
 					},
 					{
 						alias: 'shadow',
-						src: '/sprites/shadow.png',
+						src: `${base}/sprites/shadow.png`,
 					},
 				],
 			},

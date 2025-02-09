@@ -10,12 +10,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: (() => {
-				console.log("HERE")
-				let x = process.argv.includes('dev') ? '' : process.env.BASE_PATH
-				console.log(x);
-				return x
-			})()
+			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
 		}
 	}
 };
