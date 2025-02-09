@@ -1,9 +1,9 @@
 name: Deploy Svelte to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main  # Change to your default branch if needed
+  # push:
+  #   branches:
+  #     - main  # Change to your default branch if needed
 
   workflow_dispatch:  # Allows manual triggering
 
