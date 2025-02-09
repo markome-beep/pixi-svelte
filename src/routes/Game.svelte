@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { Input } from './input';
 	import { init_game, update } from './gameHandler';
+	import { avg_val } from '$lib';
 
 	let {
 		class: cls = '',
@@ -15,6 +16,7 @@
 	let game_canvas: HTMLCanvasElement;
 	let container: HTMLDivElement;
 
+	let fps_calc = avg_val(100);
 	const app = new Application();
 
 	const game = async () => {
@@ -34,7 +36,7 @@
 		const tickThreshold = 10;
 		app.ticker.add((ticker) => {
 			timeAccum += ticker.deltaTime;
-			fps_disp = 60 / ticker.deltaTime;
+			fps_disp = fps_calc(60 / ticker.deltaTime);
 			if (timeAccum > tickThreshold) {
 				timeAccum -= tickThreshold;
 				// updateGame();
