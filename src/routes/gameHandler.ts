@@ -56,9 +56,9 @@ const make_camera = (stage: Container) => {
 		.on("mouseup", () => { is_dragging = false })
 		.on("wheel", (event) => {
 			event.preventDefault();
-			const zoom_factor = event.deltaY > 0 ? (1 - zoom_speed) : (1 + zoom_speed);
+			const zoom_factor = (event.deltaY || -1) > 0 ? (1 - zoom_speed) : (1 + zoom_speed);
 
-			let mouse = camera.toLocal({ x: event.clientX, y: event.clientY });
+			let mouse = camera.toLocal({ x: event.clientX - 10, y: event.clientY - 70 });
 
 			camera.x += (mouse.x - camera.pivot.x) * camera.scale.x;
 			camera.y += (mouse.y - camera.pivot.y) * camera.scale.y;
