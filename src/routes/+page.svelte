@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Game from './Game.svelte';
-	import DebugLabel from './DebugLabel.svelte';
+	import Game from './components/Game.svelte';
+	import DebugLabel from './components/DebugLabel.svelte';
 	let fps = $state(0);
 </script>
 

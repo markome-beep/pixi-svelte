@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Application } from 'pixi.js';
 	import { onMount } from 'svelte';
-	import { Input } from './input';
-	import { init_game, update } from './gameHandler';
+	import { Input } from '$lib/input';
+	import { init_game, update } from '$lib/gameHandler';
 	import { avg_val } from '$lib';
 
 	let {
@@ -28,7 +28,7 @@
 			canvas: game_canvas,
 			resizeTo: container
 		});
-		//await initDevtools({ app });
+		app.stage.hitArea = app.screen;
 		await init_game(app.stage);
 
 		const update_func = update(input, app.stage);

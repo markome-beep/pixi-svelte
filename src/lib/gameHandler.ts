@@ -1,6 +1,6 @@
-import { Assets, Container, Point, Sprite, Texture } from "pixi.js";
-import { load_assets } from "./assets";
-import type { Input } from "./input";
+import { Assets, Container, Graphics, Polygon, Sprite, Texture } from "pixi.js";
+import { load_assets } from "$lib/assets";
+import type { Input } from "$lib/input";
 
 const row_off = [0, 16] as const;
 const col_off = [23, 8] as const;
@@ -11,19 +11,36 @@ const make_map = async () => {
 	const texture: Texture = await Assets.load('hex');
 	texture.source.scaleMode = 'nearest';
 
-	for (let i = 0; i < 100; i++) {
-		for (let j = 0; j < 100; j++) {
-			if (i % 3 === 0 && j % 4 === 0) {
+
+	let nums = 10;
+	for (let i = 0; i < nums * 2 - 1; i++) {
+		for (let j = Math.max(-i, -nums + 1); j < Math.min(nums, nums * 2 - i - 1); j++) {
+			if (Math.random() > .7) {
 				continue;
 			}
 			const tile = Sprite.from(texture);
-			tile.cursor = "hand";
+			const hitArea = [
+				0, 15,
+				8, 7,
+				24, 7,
+				32, 15,
+				24, 24,
+				8, 24
+			].map((e) => e - 16);
+			tile.hitArea = new Polygon(hitArea);
 			tile.on('pointerover', () => { tile.alpha = 0.5 });
 			tile.on('pointerleave', () => { tile.alpha = 1 });
 			tile.eventMode = 'static';
 			tile.y = (row_off[1] * i + col_off[1] * j);
 			tile.x = (row_off[0] * i + col_off[0] * j);
 			tile.anchor.set(0.5);
+
+			////Debug hit area
+			//const g = new Graphics().poly(hitArea).fill();
+			//g.x = tile.x
+			//g.y = tile.y
+			//hexContainer.addChild(g);
+
 			hexContainer.addChild(tile);
 		}
 	}
@@ -39,21 +56,21 @@ const make_camera = (stage: Container) => {
 	let last_pos = { x: 0, y: 0 };
 	let mouse_down_pos = { x: 0, y: 0 }
 
-	stage.on("mousedown", (event) => {
+	stage.on("pointerdown", (event) => {
 		is_dragging = true;
 		mouse_down_pos = { x: event.clientX, y: event.clientY };
 		last_pos = { x: camera.x, y: camera.y };
 
 	})
-		.on("mousemove", (event) => {
+		.on("pointermove", (event) => {
 			if (!is_dragging) return;
 			const dx = event.clientX - mouse_down_pos.x + last_pos.x;
 			const dy = event.clientY - mouse_down_pos.y + last_pos.y;
 			camera.x = dx;
 			camera.y = dy;
 		})
-		.on("mouseleave", () => { is_dragging = false })
-		.on("mouseup", () => { is_dragging = false })
+		.on("pointerupoutside", () => { is_dragging = false })
+		.on("pointerup", () => { is_dragging = false })
 		.on("wheel", (event) => {
 			event.preventDefault();
 			const zoom_factor = (event.deltaY || -1) > 0 ? (1 - zoom_speed) : (1 + zoom_speed);
@@ -71,6 +88,8 @@ const make_camera = (stage: Container) => {
 
 	camera.label = 'camera';
 	stage.addChild(camera);
+	camera.x = 450;
+	camera.y = 50;
 
 	return camera
 }
